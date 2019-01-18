@@ -13,8 +13,8 @@ public class PlayerMovement : MonoBehaviour
 {
     //Initial Scripts for player movemet
     //TODO: change movement script to use Time.deltaTime when taught
-    public int playerSpeed = 5;
-    public int playerJumpPower = 315;
+    [SerializeField] protected float playerSpeed = 5.0f;
+    [SerializeField] protected float playerJumpPower = 6.0f; //previous 315
 
     private float xMovement;
 
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         //calls jump() if jump button is pressed 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            Debug.Log("jump being pressed");
+            //Debug.Log("jump being pressed");
             Jump();
         }
 
@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
         //"jumps" by adding force to the Rigidbody2D component 
-        GetComponent<Rigidbody2D>().AddForce(Vector2.up * playerJumpPower);
+        GetComponent<Rigidbody2D>().AddForce(Vector2.up * playerJumpPower, ForceMode2D.Impulse);
         isGrounded = false;
     }
 
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //simple way to see what object the player has collided with 
-        Debug.Log("player has collide with " + collision.collider.name);
+        //Debug.Log("player has collide with " + collision.collider.name);
 
         //if the player object collides with the ground, then isGrounded is set back to true 
         if (collision.gameObject.tag == "Ground")
