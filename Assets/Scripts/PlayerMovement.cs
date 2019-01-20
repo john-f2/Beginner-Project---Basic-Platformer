@@ -24,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Initial Test");
+        PlayerPrefs.SetInt("gems", 0);
+        PlayerPrefs.SetInt("coins", 0);
     }
 
     // Update is called once per frame

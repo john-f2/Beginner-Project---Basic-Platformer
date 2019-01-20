@@ -17,6 +17,7 @@ public class PlayerScore : MonoBehaviour
     //used to keep track of score
     private int score;
     private int coinsCollected;
+    private int gemsCollected;
 
 
     //public variables used to keep track of time 
@@ -28,16 +29,21 @@ public class PlayerScore : MonoBehaviour
     //GameObject used to reference which UI GameObject scoreUI is
     //the reference is set in the inspector 
     public GameObject scoreUI;
+    public GameObject gemUI;
     public GameObject keyUI;
-
     public Sprite key;
+
+    //GameObjects for prefabs, used for instantiation 
+    public GameObject openChest;
+    public GameObject gemObject; 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        score = 0;
         coinsCollected = 0;
+        gemsCollected = 0;
+        keyUI.SetActive(false);
 
     }
 
@@ -46,28 +52,57 @@ public class PlayerScore : MonoBehaviour
     {
         //time = time - Time.deltaTime;
         //Debug.Log(time);
-        scoreUI.gameObject.GetComponent<Text>().text = "Coins: " + coinsCollected;
-        if (keyCollected == true)
-        {
-            keyUI.gameObject.GetComponent<Image>().sprite = key;
-        }
+        scoreUI.gameObject.GetComponent<Text>().text = ":" + coinsCollected;
+        gemUI.gameObject.GetComponent<Text>().text = ":" + gemsCollected;
 
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        //Debug.Log(collider.tag);
+        
         if (collider.CompareTag("Coin"))
         {
             Destroy(collider.gameObject);
             coinsCollected++;
+            PlayerPrefs.SetInt("coins", coinsCollected);
+
         }
 
         if (collider.CompareTag("Key"))
         {
             Destroy(collider.gameObject);
             keyCollected = true;
+            keyUI.SetActive(true);
+
         }
+
+        if (collider.CompareTag("Gem"))
+        {
+            Destroy(collider.gameObject);
+            gemsCollected++;
+            PlayerPrefs.SetInt("gems", gemsCollected);
+        }
+
+        if (collider.CompareTag("Chest") && keyCollected == true)
+        {
+            //Debug.Log("chest opening!");
+
+            //changes chest sprite to an open chest sprite
+            Vector3 chest_postion = collider.gameObject.transform.position;
+            Destroy(collider.gameObject);
+            Instantiate(openChest, chest_postion, Quaternion.identity);
+
+            //Instatiates a gem object
+            Vector2 gemPos = (Vector2)chest_postion + (Vector2.up * 2);
+            Instantiate(gemObject, gemPos, Quaternion.identity);
+
+            //deactivates the key UI image and removes key from inventory 
+            keyUI.SetActive(false);
+            keyCollected = false;
+
+        }
+
+
 
 
     }
@@ -77,3 +112,6 @@ public class PlayerScore : MonoBehaviour
 
     }
 }
+
+
+
