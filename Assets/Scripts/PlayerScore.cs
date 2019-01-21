@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerScore : MonoBehaviour
 {
@@ -100,6 +101,12 @@ public class PlayerScore : MonoBehaviour
             keyUI.SetActive(false);
             keyCollected = false;
 
+        }
+
+        if (collider.CompareTag("Bunny"))
+        {
+            //loads the end scene
+            SceneManager.LoadScene("EndScene");
         }
 
 

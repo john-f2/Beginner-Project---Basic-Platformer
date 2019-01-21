@@ -83,6 +83,26 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    //used for moving the player from door_1 to door_2
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.name == "door_1")
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                this.transform.position = new Vector2(38.05f, 3.96f);
+            }
+        }
+        if (col.name == "door_2")
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                this.transform.position = new Vector2(57.09f, 3.25f);
+            }
+        }
+
+    }
+
 
 
 }

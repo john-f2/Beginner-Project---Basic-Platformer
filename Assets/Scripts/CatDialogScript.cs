@@ -28,14 +28,14 @@ public class CatDialogScript : MonoBehaviour
         catText.fontSize = 25;
         if (other.CompareTag("Player"))
         {
-            if (PlayerPrefs.GetInt("gems") < 2 )
+            if (PlayerPrefs.GetInt("gems") < 2 || PlayerPrefs.GetInt("coins") < 5 )
             {
-                catText.text = "I want 3 gold and 3 gems!";
+                catText.text = "I want 5 gold coins and 3 gems!";
 
             }
             else
             {
-                catText.text = "You can pass";
+                catText.text = "Heheh... You can pass";
                 Destroy(invisibleWall.gameObject);
             }
             DialogText.SetActive(true);
